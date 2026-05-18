@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { Box } from "@mantine/core";
-import { CanvasAddon } from "@xterm/addon-canvas";
 import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 
@@ -37,15 +36,12 @@ export const TerminalComponent = () => {
       return () => undefined;
     }
 
-    const canvasAddon = new CanvasAddon();
-
     terminalRef.current = new Terminal({
       cursorBlink: false,
       disableStdin: true,
       convertEol: true,
     });
     terminalRef.current.open(ref.current);
-    terminalRef.current.loadAddon(canvasAddon);
 
     // This is a hack to make sure the terminal is rendered before we try to fit it
     // You can blame @Meierschlumpf for this
@@ -57,7 +53,6 @@ export const TerminalComponent = () => {
 
     return () => {
       terminalRef.current?.dispose();
-      canvasAddon.dispose();
     };
   }, []);
   return <Box ref={ref} id="terminal" className={classes.outerTerminal} h="100%"></Box>;
